@@ -18,10 +18,10 @@ export default function ContactForm() {
   const buttonMessages = {
     [ContactFormStates.UNSENT]: "Send",
     [ContactFormStates.SENT]: "Sending ...",
-    [ContactFormStates.CONFIRMED]: "Message received",
+    [ContactFormStates.CONFIRMED]: "Sent",
   };
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
     setContactFormState(ContactFormStates.SENT);
 
@@ -31,14 +31,25 @@ export default function ContactForm() {
     // send to aws email service...
   }
 
+
+  function handleAction(formData: FormData) {
+    setContactFormState(ContactFormStates.SENT);
+    setTimeout(() => setContactFormState(ContactFormStates.CONFIRMED), 2000);
+    console.log(formData)
+    console.log("submitted form")
+
+  }
+
   return (
     <>
       <div id="contactForm">
-        <form onSubmit={handleSubmit}>
+        <form action={handleAction}>
           <div className="left">
             <h3>Reach out!</h3>
-            <input type="text" placeholder="John Doe"></input>
-            <input type="email" placeholder="mikehawk@gmail.com"></input>
+            <label htmlFor="name">Name</label>
+            <input id="name" name="name" type="text" placeholder="Mike Hawk" required/>
+            <label htmlFor="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="mikehawk@gmail.com" required/>
             <button
               type="submit"
               disabled={contactFormState != ContactFormStates.UNSENT}
@@ -47,7 +58,8 @@ export default function ContactForm() {
             </button>
           </div>
           <div className="right">
-            <textarea ref={textareaRef}></textarea>
+            <label htmlFor="textarea">Your message</label>
+            <textarea id="textarea" name="message" required></textarea>
           </div>
         </form>
       </div>
