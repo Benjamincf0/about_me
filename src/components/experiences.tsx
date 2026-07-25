@@ -1,7 +1,8 @@
-import "./experiences.css";
-import reactLogo from "../assets/react.svg";
-import typescriptLogo from "../assets/typescript-16-svgrepo-com.svg";
-import glslLogo from "../assets/glsl-svgrepo-com.svg";
+import "#styles/experiences.css";
+import reactLogo from "#assets/react.svg";
+import typescriptLogo from "#assets/typescript-16-svgrepo-com.svg";
+import glslLogo from "#assets/glsl-svgrepo-com.svg";
+import TechStack from "#components/techstack.tsx";
 // import locationIcon from "src/assets/locationIcon.svg";
 const experiences = [
   {
@@ -84,21 +85,7 @@ export default function Experiences() {
                 </div>
                 <div className="bottom">
                   <p className="description">{desc}</p>
-                  <ul className="techStack">
-                    {stack.map(({ name, img_src }, index) => (
-                      <li
-                          key={index}
-                        style={{
-                          left: `${-15 * index + 15 * (stack.length - 1)}px`,
-                        }}
-                      >
-                        <img src={img_src} />
-                        <div className="grower">
-                          <p>{name}</p>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
+                    <TechStack stack={stack} />
                 </div>
               </div>
             </li>

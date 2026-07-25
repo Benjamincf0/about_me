@@ -1,0 +1,48 @@
+.techStack {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 0;
+  padding: 0;
+
+  li {
+    display: flex;
+    height: 50px;
+    min-width: 50px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    padding: 10px;
+    overflow: hidden;
+    box-sizing: border-box;
+    position: relative;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    background-color: #151515;
+    box-shadow: 5px 10px 20px 2px rgba(0, 0, 0, 0.9);
+    img {
+    }
+    p {
+      color: transparent;
+      overflow: hidden;
+      white-space: nowrap; /* Keep text from wrapping during grow */
+      font-size: 15px;
+    }
+    .grower {
+      display: grid;
+      grid-template-columns: 0fr;
+      transition: grid-template-columns 0.6s ease;
+    }
+  }
+  li:hover {
+    background-color: black;
+    margin-right: 10px;
+    .grower {
+      grid-template-columns: 1fr;
+      p {
+        padding: 0 10px 0 5px;
+        color: #ffffff;
+      }
+    }
+  }
+}

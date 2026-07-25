@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import "./hero.css"
+import "#styles/hero.css"
 const FOREGROUND = "red";
 const BACKGROUND = "black";
 

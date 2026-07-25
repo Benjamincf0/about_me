@@ -1,4 +1,4 @@
-import '../App.css'
+import '#styles/App.css'
 export default function Navbar() {
   return (
     <div id="navbar">

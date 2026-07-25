@@ -9,6 +9,11 @@
     "lint": "oxlint",
     "preview": "vite preview"
   },
+  "imports": {
+    "#styles/*": "./src/styles/*",
+    "#components/*": "./src/components/*",
+    "#assets/*": "./src/assets/*"
+  },
   "dependencies": {
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
