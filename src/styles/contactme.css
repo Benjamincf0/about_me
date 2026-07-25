@@ -1,18 +1,38 @@
-#contactForm form {
-  display: flex;
-  flex-direction: row;
-  .left {
-    flex: 1;
-    input {
-      display: block;
-      width: 100%;
+#contactForm {
+  background-color: #121212;
+
+  form {
+    display: flex;
+    flex-direction: row;
+    .left {
+      padding: 20px;
+      flex: 1;
+      input,
+      button {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        height: 34px;
+        border-radius: 5px;
+        border-color: var(--accent-border);
+        margin-bottom: 10px;
+      }
+      button {
+        background-color: var(--accent-bg);
+      }
     }
-  }
-  .right {
-    flex: 1;
-    textarea {
-      display: block;
-      width: 100%;
+    .right {
+      flex: 1;
+      padding: 20px;
+      background-color: grey;
+      textarea {
+        box-sizing: border-box;
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-color: var(--accent-border);
+        border-radius: 5px;
+      }
     }
   }
 }
