@@ -1,6 +1,6 @@
 import "#styles/techstack.css"
 
-interface TechStackData {
+export interface TechStackData {
   name: string;
   img_src: string;
 }
