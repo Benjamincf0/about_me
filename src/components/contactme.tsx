@@ -21,16 +21,15 @@ export default function ContactForm() {
     [ContactFormStates.CONFIRMED]: "Sent",
   };
 
-  function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setContactFormState(ContactFormStates.SENT);
-
-    setTimeout(() => setContactFormState(ContactFormStates.CONFIRMED), 2000);
-    console.log(textareaRef.current?.value)
-    // console.log(textareaText)
-    // send to aws email service...
-  }
-
+  // function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
+  //   e.preventDefault();
+  //   setContactFormState(ContactFormStates.SENT);
+  //
+  //   setTimeout(() => setContactFormState(ContactFormStates.CONFIRMED), 2000);
+  //   console.log(textareaRef.current?.value)
+  //   // console.log(textareaText)
+  //   // send to aws email service...
+  // }
 
   function handleAction(formData: FormData) {
     setContactFormState(ContactFormStates.SENT);
