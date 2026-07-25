@@ -12,17 +12,22 @@ export default function ContactForm() {
     ContactFormStates.UNSENT,
   );
 
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  // const [textareaText, setTextareaText] = useState("");
+
   const buttonMessages = {
     [ContactFormStates.UNSENT]: "Send",
     [ContactFormStates.SENT]: "Sending ...",
     [ContactFormStates.CONFIRMED]: "Message received",
   };
 
-  function handleSubmit(e: SubmitEvent) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setContactFormState(ContactFormStates.SENT);
 
     setTimeout(() => setContactFormState(ContactFormStates.CONFIRMED), 2000);
+    console.log(textareaRef.current?.value)
+    // console.log(textareaText)
     // send to aws email service...
   }
 
@@ -42,7 +47,7 @@ export default function ContactForm() {
             </button>
           </div>
           <div className="right">
-            <textarea></textarea>
+            <textarea ref={textareaRef}></textarea>
           </div>
         </form>
       </div>
