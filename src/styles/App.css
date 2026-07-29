@@ -13,8 +13,19 @@
 }
 #navbar {
   display: flex;
+  position: sticky;
+  width: 100%;
+  box-sizing: border-box;
+  top: 0;
+  z-index: 5;
   padding: 10px;
-  background: red;
+  background-color: rgba(200, 200, 200, 0.2); 
+  
+  /* Step 2: Blur the content behind the element */
+  backdrop-filter: blur(10px); 
+  
+  /* Step 3: Safari support */
+  -webkit-backdrop-filter: blur(10px); 
   h1 {
     flex: 1;
     text-align: left;
