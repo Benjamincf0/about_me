@@ -1,16 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import "#styles/hero.css";
+import { load } from "@loaders.gl/core";
+import { PLYLoader } from "@loaders.gl/ply";
+const plyData = await loadPlyBuffer("./bunny.ply");
 
 const vertexShaderSource = `
-  // an attribute will receive data from a buffer
-  attribute vec4 a_position;
+  attribute vec3 a_position;
  
-  // all shaders have a main function
   void main() {
- 
-    // gl_Position is a special variable a vertex shader
-    // is responsible for setting
-    gl_Position = a_position;
+    gl_Position = vec4(a_position*5.0 - vec3(0, 0.3, 0), 1.0);
   }
 `;
 
@@ -19,11 +17,20 @@ const fragmentShaderSource = `
   // to pick one. mediump is a good default
   precision mediump float;
 
+  uniform vec2 u_resolutionF;
  
   void main() {
     // gl_FragColor is a special variable a fragment shader
     // is responsible for setting
-    gl_FragColor = vec4(0.1, 0.2, 0.5, 1); // return reddish-purple
+    vec2 st = gl_FragCoord.xy/u_resolutionF.xy;
+
+    vec2 diff = st - vec2(0.5);
+    float d_squared = dot(diff, diff);
+    float r = 0.2;
+
+    vec2 color = (1.-step(r*r, d_squared))*st;
+    
+    gl_FragColor = vec4(st, 0, 1); // return reddish-purple
   }
 `;
 
@@ -88,6 +95,90 @@ function resizeCanvasToDisplaySize(canvas: HTMLCanvasElement) {
   return needResize;
 }
 
+async function loadPlyBuffer(url: string) {
+  const data = await load(url, PLYLoader);
+  const vertices = data.attributes.POSITION.value as Float32Array;
+  
+  let indices = data.indices?.value;
+  
+  // Force 16-bit array
+  if (indices instanceof Uint32Array) {
+    indices = new Uint16Array(indices);
+  }
+
+  return { vertices, indices };
+}
+
+interface WebGLUniforms {
+  [key: string]: WebGLUniformLocation;
+}
+
+function drawScene(
+  gl: WebGLRenderingContext,
+  program: WebGLProgram,
+  uniforms: WebGLUniforms,
+) {
+  if (gl.canvas instanceof OffscreenCanvas) return;
+  resizeCanvasToDisplaySize(gl.canvas);
+
+  // Tell WebGL how to convert from clip space to pixels
+  gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+  // Clear the canvas.
+  gl.clear(gl.COLOR_BUFFER_BIT);
+
+  // Tell it to use our program (pair of shaders)
+  gl.useProgram(program);
+
+  // Turn on the attribute
+  // gl.enableVertexAttribArray(positionAttributeLocation);
+
+  // Bind the position buffer.
+  // gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+
+  // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
+  // var size = 2; // 2 components per iteration
+  // var type = gl.FLOAT; // the data is 32bit floats
+  // var normalize = false; // don't normalize the data
+  // var stride = 0; // 0 = move forward size * sizeof(type) each iteration to get the next position
+  // var offset = 0; // start at the beginning of the buffer
+  // gl.vertexAttribPointer(
+  //   positionAttributeLocation,
+  //   size,
+  //   type,
+  //   normalize,
+  //   stride,
+  //   offset,
+  // );
+
+  // Compute the matrix
+  // var matrix = m3.projection(gl.canvas.clientWidth, gl.canvas.clientHeight);
+  // matrix = m3.translate(matrix, translation[0], translation[1]);
+  // matrix = m3.rotate(matrix, angleInRadians);
+  // matrix = m3.scale(matrix, scale[0], scale[1]);
+
+  // Set the matrix.
+  // gl.uniformMatrix3fv(matrixLocation, false, matrix);
+
+  // set the resolution
+  // gl.uniform2f(
+  //   uniforms.resolutionUniformLocation,
+  //   gl.canvas.width,
+  //   gl.canvas.height,
+  // );
+  gl.uniform2f(
+    uniforms.resolutionFUniformLocation,
+    gl.canvas.width,
+    gl.canvas.height,
+  );
+
+  // Draw the geometry.
+  var primitiveType = gl.TRIANGLES;
+  var offset = 0;
+  var count = 6;
+  gl.drawArrays(primitiveType, offset, count);
+}
+
 export default function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [canvasContext, setCanvasContext] = useState<string>("");
@@ -102,6 +193,7 @@ export default function Hero() {
     else {
       setCanvasContext("webgl");
     }
+    if (gl.canvas instanceof OffscreenCanvas) return;
 
     const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
     const fragmentShader = createShader(
@@ -127,18 +219,36 @@ export default function Hero() {
     );
 
     const positionBuffer = gl.createBuffer();
+    const indexBuffer = gl.createBuffer();
 
     // This binds my positionBuffer to the gl.ARRAY_BUFFER bind point.
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer)
 
     // three 2d points
-    var positions = [-1, -1, -1, 1, 1, -1];
+    // var positions = [-1, -1, -1, 1, 1, -1, -1, 1, 1, -1, 1, 1];
+    // Load ply
+    const positions = plyData.vertices
+    const indices = plyData.indices
+    console.log(plyData);
+    if (!indices) return;
 
     // Now we create a strongly typed array, and copy it to the GPU on the gl.ARRAY_BUFFER bind point.
     // gl.STATIC_DRAW is a hint to webgl that we won't change this buffer often, so it can optimize things.
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
 
-    // Rendering ...
+    // const resolutionUniformLocation = gl.getUniformLocation(
+    //   program,
+    //   "u_resolution",
+    // );
+    const resolutionFUniformLocation = gl.getUniformLocation(
+      program,
+      "u_resolutionF",
+    );
+    if (!resolutionFUniformLocation) return;
+
+    // RENDERING ...
 
     // This makes sure the canvas pixels match the css pixel dimensions.
     resizeCanvasToDisplaySize(gl.canvas);
@@ -162,7 +272,7 @@ export default function Hero() {
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
     // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
-    var size = 2; // 2 components per iteration
+    var size = 3; // 2 components per iteration
     var type = gl.FLOAT; // the data is 32bit floats
     var normalize = false; // don't normalize the data
     var stride = 0; // 0 = move forward size * sizeof(type) each iteration to get the next position
@@ -176,12 +286,25 @@ export default function Hero() {
       offset,
     );
 
+    // set the resolution
+    // gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
+    gl.uniform2f(resolutionFUniformLocation, gl.canvas.width, gl.canvas.height);
 
     // Now we tell it to execute finally 😅
     const primitiveType = gl.TRIANGLES;
     offset = 0;
-    const count = 3;
-    gl.drawArrays(primitiveType, offset, count);
+    const count = indices.length;
+    const indexType = gl.UNSIGNED_SHORT;
+    gl.drawElements(primitiveType, count, indexType, offset);
+    console.log("rendered")
+
+    // Create the observer
+    // const observer = new ResizeObserver(() =>
+    //   drawScene(gl, program, {
+    //     resolutionFUniformLocation,
+    //   }),
+    // );
+    // observer.observe(canvas);
   }, []); // Only runs once since we pass [] as depsList
 
   return (
