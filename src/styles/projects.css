@@ -1,14 +1,16 @@
 #projects {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 3 equal-width columns */
-  gap: 10px; /* Spacing between cells */
+  grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+  place-items: center;
+  gap: 10px;
 
   .projectCard {
     display: inline-block;
+    width: 560px;
     margin: 50px;
     padding: 10px;
     border-radius: 20px;
-    background-color: #363656;
+    background-color: var(--bg);
     box-shadow: 5px 10px 20px 2px rgba(0, 0, 0, 0.9);
 
     .top {
@@ -16,7 +18,7 @@
       overflow: hidden;
       padding: 0;
       width: 100%;
-      min-height: 200px;
+      height: 315px;
       background-color: gray;
     }
 

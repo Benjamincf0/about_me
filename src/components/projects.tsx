@@ -35,7 +35,7 @@ const projects = [
     ],
     gh_link: "https://github.com/Benjamincf0/omniclaw",
     description: "ggs",
-    visual_link: "https://www.youtube.com/watch?v=bILXbqu0I_Q",
+    visual_link: "https://www.youtube.com/embed/bILXbqu0I_Q?si=YQqIB_g-59lwRLjA&amp;controls=0",
   },
   {
     name: "OmniClaw",
@@ -98,7 +98,6 @@ export default function Projects() {
 }
 
 function Projectcard({ name, tags, stack, gh_link, description, visual_link  }: ProjectCardProps) {
-  // const { name, tags, stack, gh_link, description, visual_link } = project;
   return (
     <div key={name} className="projectCard">
       <div className="top">
@@ -106,7 +105,7 @@ function Projectcard({ name, tags, stack, gh_link, description, visual_link  }: 
           <iframe
             width="560"
             height="315"
-            src="https://www.youtube.com/embed/bILXbqu0I_Q?si=YQqIB_g-59lwRLjA&amp;controls=0"
+            src={visual_link}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
