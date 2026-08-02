@@ -21,16 +21,6 @@ export default function ContactForm() {
     [ContactFormStates.CONFIRMED]: "Sent",
   };
 
-  // function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
-  //   e.preventDefault();
-  //   setContactFormState(ContactFormStates.SENT);
-  //
-  //   setTimeout(() => setContactFormState(ContactFormStates.CONFIRMED), 2000);
-  //   console.log(textareaRef.current?.value)
-  //   // console.log(textareaText)
-  //   // send to aws email service...
-  // }
-
   function handleAction(formData: FormData) {
     setContactFormState(ContactFormStates.SENT);
     setTimeout(() => setContactFormState(ContactFormStates.CONFIRMED), 2000);
@@ -44,7 +34,7 @@ export default function ContactForm() {
       <div id="contactForm">
         <form action={handleAction}>
           <div className="left">
-            <h3>Reach out!</h3>
+            <h3>Let's work together!</h3>
             <label htmlFor="name">Name</label>
             <input id="name" name="name" type="text" placeholder="Mike Hawk" required/>
             <label htmlFor="email">Email</label>
