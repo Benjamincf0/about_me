@@ -22,15 +22,17 @@
       background-color: gray;
     }
 
-    .header {
+    .bottom {
       padding: 20px;
       text-align: left;
-      .tags {
-        p {
-          display: inline-block;
-          margin-right: 10px;
-          border-radius: 15px;
-          padding: 1px 8px 1px 8px;
+      .header {
+        .tags {
+          p {
+            display: inline-block;
+            margin-right: 10px;
+            border-radius: 15px;
+            padding: 1px 8px 1px 8px;
+          }
         }
       }
     }

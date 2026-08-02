@@ -87,3 +87,12 @@
     height: 48px;
   }
 }
+
+
+.card {
+  border: solid transparent 2px;
+}
+
+.card:hover {
+  border: solid var(--accent-border) 2px;
+}

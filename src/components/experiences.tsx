@@ -2,7 +2,7 @@ import "#styles/experiences.css";
 import reactLogo from "#assets/react.svg";
 import typescriptLogo from "#assets/typescript-16-svgrepo-com.svg";
 import glslLogo from "#assets/glsl-svgrepo-com.svg";
-import TechStack from "#components/techstack.tsx";
+import downArrow from "#assets/down-arrow-5-svgrepo-com.svg";
 // import locationIcon from "src/assets/locationIcon.svg";
 const experiences = [
   {
@@ -64,28 +64,29 @@ export default function Experiences() {
             start_month,
             end_month,
             description: desc,
-            stack,
           }) => (
             <li key={id} id={id}>
-              <div className="experienceCard">
-                <div className="top">
-                  <div className="titleDiv">
-                    <h3 className="title">{company}</h3>
-                    <h3 className="subTitle">{position}</h3>
+              <div className="experienceCardWrapper">
+                <div className="experienceCard card" tabIndex={0}>
+                  <div className="top">
+                    <div className="titleDiv">
+                      <h3 className="title">{company}</h3>
+                      <h3 className="subTitle">{position}</h3>
+                    </div>
+                    <div className="right">
+                      <a href={loc_src} className="location">
+                        {/* <img src={locationIcon}></img> */}
+                        {loc_str}
+                      </a>
+                      <p className="date_range">
+                        {start_month} - {end_month}
+                      </p>
+                    </div>
                   </div>
-                  <div className="right">
-                    <a href={loc_src} className="location">
-                      {/* <img src={locationIcon}></img> */}
-                      {loc_str}
-                    </a>
-                    <p className="date_range">
-                      {start_month} - {end_month}
-                    </p>
+                  <div className="bottom">
+                    <p className="description">{desc}</p>
                   </div>
-                </div>
-                <div className="bottom">
-                  <p className="description">{desc}</p>
-                    <TechStack stack={stack} />
+                  <img className="expandButton" src={downArrow} />
                 </div>
               </div>
             </li>

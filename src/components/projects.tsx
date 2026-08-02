@@ -35,10 +35,11 @@ const projects = [
     ],
     gh_link: "https://github.com/Benjamincf0/omniclaw",
     description: "ggs",
-    visual_link: "https://www.youtube.com/embed/bILXbqu0I_Q?si=YQqIB_g-59lwRLjA&amp;controls=0",
+    visual_link:
+      "https://www.youtube.com/embed/bILXbqu0I_Q?si=YQqIB_g-59lwRLjA&amp;controls=0",
   },
   {
-    name: "OmniClaw",
+    name: "Neural network library from scratch",
     date: "May 2026",
     tags: [
       {
@@ -97,9 +98,16 @@ export default function Projects() {
   );
 }
 
-function Projectcard({ name, tags, stack, gh_link, description, visual_link  }: ProjectCardProps) {
+function Projectcard({
+  name,
+  tags,
+  stack,
+  gh_link,
+  description,
+  visual_link,
+}: ProjectCardProps) {
   return (
-    <div key={name} className="projectCard">
+    <div key={name} className="projectCard card">
       <div className="top">
         {visual_link.includes("https://www.youtube.com") ? (
           <iframe
@@ -116,16 +124,18 @@ function Projectcard({ name, tags, stack, gh_link, description, visual_link  }: 
           <p>Youtube video unavailable</p>
         )}
       </div>
-      <div className="header">
-        <h3>{name}</h3>
-        <div className="tags">
-          {tags.map(({ name, color }) => (
-            <p style={{ backgroundColor: color }}>{name}</p>
-          ))}
+      <div className="bottom">
+        <div className="header">
+          <div className="tags">
+            {tags.map(({ name, color }) => (
+              <p style={{ backgroundColor: color }}>{name}</p>
+            ))}
+          </div>
+          <h3>{name}</h3>
         </div>
-      </div>
-      <div className="mainContent">
-        <TechStack stack={stack}/>
+        <div className="mainContent">
+          <TechStack stack={stack} />
+        </div>
       </div>
     </div>
   );

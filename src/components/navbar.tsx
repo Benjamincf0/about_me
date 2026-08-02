@@ -30,7 +30,7 @@ export default function Navbar() {
             </a>
           </li>
           <li>
-            <a href="https://www.linkedin.com/in/benjaminc-f/" target="_blank">
+            <a href="#contact">
               <svg
                 className="button-icon"
                 role="presentation"
