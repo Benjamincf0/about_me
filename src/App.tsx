@@ -16,12 +16,12 @@ function App() {
       <div className="ticks"></div>
 
       <section id="main">
-        <h2>My experience</h2>
+        <h2><span className="hover-line">Experience</span></h2>
         <Experiences />
         <div className="ticks"></div>
-        <h2>My projects</h2>
+        <h2><span className="hover-line">Projects</span></h2>
         <Projects />
-        <h2>Testimonials</h2>
+        <h2><span className="hover-line">Testimonials</span></h2>
       </section>
 
       <section id="contact">
