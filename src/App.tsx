@@ -17,9 +17,12 @@ function App() {
       <div className="ticks"></div>
 
       <section id="main">
+        <h2>My experience</h2>
         <Experiences />
         <div className="ticks"></div>
+        <h2>My projects</h2>
         <Projects />
+        <h2>Testimonials</h2>
       </section>
 
       <section id="contact">
