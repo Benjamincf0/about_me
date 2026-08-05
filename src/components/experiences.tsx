@@ -66,28 +66,26 @@ export default function Experiences() {
             description: desc,
           }) => (
             <li key={id} id={id}>
-              <div className="experienceCardWrapper">
-                <div className="experienceCard card" tabIndex={0}>
-                  <div className="top">
-                    <div className="titleDiv">
-                      <h3 className="title">{company}</h3>
-                      <h3 className="subTitle">{position}</h3>
-                    </div>
-                    <div className="right">
-                      <a href={loc_src} className="location">
-                        {/* <img src={locationIcon}></img> */}
-                        {loc_str}
-                      </a>
-                      <p className="date_range">
-                        {start_month} - {end_month}
-                      </p>
-                    </div>
+              <div className="experienceCard card" tabIndex={0}>
+                <div className="top">
+                  <div className="titleDiv">
+                    <h3 className="title">{company}</h3>
+                    <h3 className="subTitle">{position}</h3>
                   </div>
-                  <div className="bottom">
-                    <p className="description">{desc}</p>
+                  <div className="right">
+                    <a href={loc_src} className="location">
+                      {/* <img src={locationIcon}></img> */}
+                      {loc_str}
+                    </a>
+                    <p className="date_range">
+                      {start_month} - {end_month}
+                    </p>
                   </div>
-                  <img className="expandButton" src={downArrow} />
                 </div>
+                <div className="bottom">
+                  <p className="description">{desc}</p>
+                </div>
+                <img className="expandButton" src={downArrow} />
               </div>
             </li>
           ),
