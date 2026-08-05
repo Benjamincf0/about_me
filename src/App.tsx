@@ -6,11 +6,10 @@ import ContactForm from "#components/contactme.tsx";
 import "#styles/App.css";
 
 function App() {
-
   return (
     <>
-      <Navbar />
-      <section id="center">
+      <section id="header" style={{height: "100vh"}}>
+        <Navbar />
         <Hero />
       </section>
 
