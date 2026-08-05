@@ -39,7 +39,7 @@ const projects = [
       "https://www.youtube.com/embed/bILXbqu0I_Q?si=YQqIB_g-59lwRLjA&amp;controls=0",
   },
   {
-    name: "Neural network library from scratch",
+    name: "Neural network library",
     date: "May 2026",
     tags: [
       {
@@ -128,7 +128,7 @@ function Projectcard({
         <div className="header">
           <div className="tags">
             {tags.map(({ name, color }) => (
-              <p style={{ backgroundColor: color }}>{name}</p>
+              <p key={name} style={{ backgroundColor: color }}>{name}</p>
             ))}
           </div>
           <h3>{name}</h3>

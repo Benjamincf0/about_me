@@ -15,7 +15,7 @@ const experiences = [
     },
     start_month: "Jan. 2026",
     end_month: "Aug. 2026",
-    description: `- Wrote glsl shaders`,
+    description: `Wrote glsl shaders, etc.`,
     stack: [
       {
         name: "React",
@@ -41,7 +41,7 @@ const experiences = [
     },
     start_month: "May. 2025",
     end_month: "Dec. 2025",
-    description: `- Did ai stuff lessgooo`,
+    description: `Did ai stuff`,
     stack: [
       {
         name: "Python",

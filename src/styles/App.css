@@ -1,84 +1,16 @@
-#center {
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  place-content: center;
-  place-items: center;
-  flex-grow: 1;
-
-  @media (max-width: 1024px) {
-    padding: 32px 20px 24px;
-    gap: 18px;
-  }
-}
-#navbar {
-  display: flex;
-  position: sticky;
-  width: 100%;
-  box-sizing: border-box;
-  top: 0;
-  z-index: 5;
-  padding: 10px;
-  background-color: rgba(200, 200, 200, 0.2); 
-  
-  /* Step 2: Blur the content behind the element */
-  backdrop-filter: blur(10px); 
-  
-  /* Step 3: Safari support */
-  -webkit-backdrop-filter: blur(10px); 
-  h1 {
-    flex: 1;
-    text-align: left;
-  }
-}
-#navbar ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  gap: 8px;
-  margin: 32px 0 0;
-
-  .logo {
-    height: 18px;
-  }
-
-  a {
-    color: var(--text-h);
-    font-size: 16px;
-    border-radius: 6px;
-    background: var(--social-bg);
-    display: flex;
-    padding: 6px 12px;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    transition: box-shadow 0.3s;
-
-    &:hover {
-      box-shadow: var(--shadow);
-    }
-    .button-icon {
-      height: 18px;
-      width: 18px;
-    }
-  }
-
-  @media (max-width: 1024px) {
-    margin-top: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-
-    li {
-      flex: 1 1 calc(50% - 8px);
-    }
-
-    a {
-      width: 100%;
-      justify-content: center;
-      box-sizing: border-box;
-    }
-  }
-}
+/* #center { */
+/*   display: flex; */
+/*   flex-direction: column; */
+/*   gap: 25px; */
+/*   place-content: center; */
+/*   place-items: center; */
+/*   flex-grow: 1; */
+/**/
+/*   @media (max-width: 1024px) { */
+/*     padding: 32px 20px 24px; */
+/*     gap: 18px; */
+/*   } */
+/* } */
 
 #spacer {
   height: 88px;

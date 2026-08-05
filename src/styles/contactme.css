@@ -28,7 +28,7 @@
       }
     }
     .right {
-      flex: 1;
+      flex: 1.5;
       padding: 20px;
       background-color: var(--accent-bg);
       display: flex;

@@ -9,7 +9,7 @@ export default function TechStack({ stack }: { stack: TechStackData[] }) {
   return <ul className="techStack">
     {stack.map(({ name, img_src }, index) => (
       <li
-        key={index}
+        key={name}
         style={{
           left: `${-15 * index + 15 * (stack.length - 1)}px`,
         }}
