@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
   place-items: center;
-  gap: 10px;
+  gap: 50px;
 
   .projectCard {
     display: inline-block;
