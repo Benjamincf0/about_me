@@ -19,6 +19,22 @@
     font-size: 26px;
     padding: 0;
     margin: 0;
+
+    a {
+      display: flex;
+      align-items: center;
+      position: relative;
+      gap: 10px;
+      text-decoration: none;
+      color: black;
+      .button-icon {
+        height: 26px;
+        width: 26px;
+        display: inline-block;
+        position: relative;
+        top: 2px;
+      }
+    }
   }
 }
 
