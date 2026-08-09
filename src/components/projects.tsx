@@ -38,18 +38,20 @@ const projects = [
       },
     ],
     gh_link: "https://github.com/Benjamincf0/omniclaw",
-    description: `MCP server for omnivox
-at ass`,
+    description: `• Built an MCP server for a student portal, empowering agents to help with homework and emails.
+• Integrated OAuth2 to let users login from their favourite MCP client (i.e. Codex / Claude code).
+• Automated a secondary login flow using a backend playwright instance to log into Omnivox on a user’s behalf.
+• Reverse engineered the Omnivox website to replicate the http headers and intercept the bearer token.`,
     visual_link:
       "https://www.youtube.com/embed/bILXbqu0I_Q?si=YQqIB_g-59lwRLjA&amp;controls=0",
   },
   {
-    name: "Neural network library",
+    name: "NeuralFlow",
     date: "May 2026",
     tags: [
       {
-        name: "hackathon",
-        color: "#323232",
+        name: "personal project",
+        color: "#323882",
       },
       {
         name: "no ai code",
@@ -58,20 +60,77 @@ at ass`,
     ],
     stack: [
       {
-        name: "React",
-        img_src: reactLogo,
-      },
-      {
-        name: "Typescript",
+        name: "Python",
         img_src: typescriptLogo,
       },
       {
-        name: "GLSL",
+        name: "Numpy",
         img_src: glslLogo,
       },
     ],
-    gh_link: "https://github.com/Benjamincf0/omniclaw",
-    description: "ggs",
+    gh_link: "https://github.com/Benjamincf0/Neural-Network-Library",
+    description: `• Created a NN library complete with mini-batch gradient descent and activation/cost functions.
+• Trained a sequential neural network achieving ∼96% test accuracy on MNIST dataset.
+• Implemented customizable network and layer shapes for enhanced flexibility and scalability.
+• Visualized inference with an interactive real-time digit recognition game using PyGame`,
+    visual_link: "penis",
+  },
+  {
+    name: "Cheese Manager",
+    date: "May 2026",
+    tags: [
+      {
+        name: "personal project",
+        color: "#323882",
+      },
+      {
+        name: "no ai code",
+        color: "#77569e",
+      },
+    ],
+    stack: [
+      {
+        name: "Python",
+        img_src: typescriptLogo,
+      },
+      {
+        name: "Numpy",
+        img_src: glslLogo,
+      },
+    ],
+    gh_link: "https://github.com/Benjamincf0/Neural-Network-Library",
+    description: `• Developed an application for a comté cheese distribution business following the MVC pattern in Java.
+• Created an aesthetically pleasing user interface with JavaFX using reusable components.
+• Collaborated with teammates to create a UML class diagram and state diagram using Umple.`,
+    visual_link: "penis",
+  },
+  {
+    name: "WebChat",
+    date: "May 2026",
+    tags: [
+      {
+        name: "personal project",
+        color: "#323882",
+      },
+      {
+        name: "no ai code",
+        color: "#77569e",
+      },
+    ],
+    stack: [
+      {
+        name: "Python",
+        img_src: typescriptLogo,
+      },
+      {
+        name: "Numpy",
+        img_src: glslLogo,
+      },
+    ],
+    gh_link: "https://github.com/Benjamincf0/Neural-Network-Library",
+    description: `• Developed a full-stack web messaging platform with authentication to message friends.
+• Programmed search and adding friends features with Cloud Functions.
+• Implemented Firestore security rules to ensure secure communications.`,
     visual_link: "penis",
   },
 ];
