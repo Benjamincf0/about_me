@@ -12,11 +12,15 @@ const projects = [
     tags: [
       {
         name: "hackathon",
-        color: "#121212",
+        color: "#323232",
       },
       {
-        name: "group_project",
+        name: "group project",
         color: "#5566ee",
+      },
+      {
+        name: "vibe coding",
+        color: "#569e77",
       },
     ],
     stack: [
@@ -34,7 +38,8 @@ const projects = [
       },
     ],
     gh_link: "https://github.com/Benjamincf0/omniclaw",
-    description: "ggs",
+    description: `MCP server for omnivox
+at ass`,
     visual_link:
       "https://www.youtube.com/embed/bILXbqu0I_Q?si=YQqIB_g-59lwRLjA&amp;controls=0",
   },
@@ -44,11 +49,11 @@ const projects = [
     tags: [
       {
         name: "hackathon",
-        color: "#121212",
+        color: "#323232",
       },
       {
-        name: "group_project",
-        color: "#5566ee",
+        name: "no ai code",
+        color: "#77569e",
       },
     ],
     stack: [
@@ -121,19 +126,22 @@ function Projectcard({
             allowFullScreen
           ></iframe>
         ) : (
-          <p>Youtube video unavailable</p>
+          <p>Video unavailable</p>
         )}
       </div>
       <div className="bottom">
         <div className="header">
           <div className="tags">
             {tags.map(({ name, color }) => (
-              <p key={name} style={{ backgroundColor: color }}>{name}</p>
+              <p key={name} style={{ backgroundColor: color }}>
+                {name}
+              </p>
             ))}
           </div>
           <h3>{name}</h3>
         </div>
         <div className="mainContent">
+          <p className="description">{description}</p>
           <TechStack stack={stack} />
         </div>
       </div>
