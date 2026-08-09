@@ -3,12 +3,13 @@ import Hero from "#components/hero.tsx";
 import Experiences from "#components/experiences.tsx";
 import Projects from "#components/projects.tsx";
 import ContactForm from "#components/contactme.tsx";
+import Testimonials from "#components/testimonials.tsx"
 import "#styles/App.css";
 
 function App() {
   return (
     <>
-      <section id="header" style={{height: "100vh"}}>
+      <section id="header" >
         <Navbar />
         <Hero />
       </section>
@@ -16,19 +17,23 @@ function App() {
       <div className="ticks"></div>
 
       <section id="main">
+        {/* <h2><span className="hover-line">Education</span></h2> */}
         <h2><span className="hover-line">Experience</span></h2>
         <Experiences />
         <div className="ticks"></div>
         <h2><span className="hover-line">Projects</span></h2>
         <Projects />
         <h2><span className="hover-line">Testimonials</span></h2>
+        <Testimonials />
       </section>
 
       <section id="contact">
         <ContactForm />
       </section>
 
-      <section id="spacer"></section>
+      <section id="footer">
+        <h4>Copyright © 2026 Benjamin Curis-Friedman</h4>
+      </section>
     </>
   );
 }
