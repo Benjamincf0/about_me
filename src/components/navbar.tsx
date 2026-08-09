@@ -17,9 +17,18 @@ export default function Navbar() {
   return (
     <div id="navbar">
       <h1>
-        <span ref={nameSpanRef} className="hover-line hover-line-lr">
-          Benjamin Curis-Friedman
-        </span>
+        <a href="https://github.com/Benjamincf0/Resume/blob/main/Benjamin_Curis_Friedman.pdf">
+          <span ref={nameSpanRef} className="hover-line hover-line-lr">
+            Benjamin Curis-Friedman
+          </span>
+          <svg
+            className="button-icon github"
+            role="presentation"
+            aria-hidden="true"
+          >
+            <use href="/icons.svg#resume-icon"></use>
+          </svg>
+        </a>
       </h1>
       <ul className="navbarOptions">
         <li>
