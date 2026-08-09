@@ -327,7 +327,7 @@ export default function Hero() {
     <div id="hero">
       <div className="infoTag">
         {canvasContext ? <img className="icon" src={statusActiveIcon} /> : ""}
-        <p>{canvasContext ? canvasContext : "nothing"}</p>
+        <p>{canvasContext ? canvasContext : "no rendering backend"}</p>
       </div>
       <canvas
         ref={canvasRef}
