@@ -9,21 +9,21 @@ He is intrinsically motivated, curious, and capable of absorbing, and quickly or
 
 He is thorough and attentive to detail, but also productive. He is unafraid of working on complex systems, and helped us advance, significantly, several such projects.`,
   },
-  {
-    author: "Bob ",
-    message: `babanini
-asdf`,
-  },
-  {
-    author: "Jeff Epstein teh new yorkersd",
-    message: `babanini
-asdf`,
-  },
-  {
-    author: "Palm beach pete",
-    message: `Bombosini gosini
-tralalero tralala`,
-  },
+//   {
+//     author: "Bob ",
+//     message: `babanini
+// asdf`,
+//   },
+//   {
+//     author: "Jeff Epstein teh new yorkersd",
+//     message: `babanini
+// asdf`,
+//   },
+//   {
+//     author: "Palm beach pete",
+//     message: `Bombosini gosini
+// tralalero tralala`,
+//   },
 ];
 
 interface Testimonial {
@@ -34,7 +34,7 @@ interface Testimonial {
 export default function Testimonials() {
   return (
     <div className="testimonial_carousel">
-      {[0, 1].map(() => (
+      {[0].map(() => (
         <ul className="testimonials">
           {testimonials.map(
             ({ author, message }: Testimonial, index: number) => (
