@@ -17,7 +17,7 @@ export default function Navbar() {
   return (
     <div id="navbar">
       <h1>
-        <a href="https://github.com/Benjamincf0/Resume/blob/main/Benjamin_Curis_Friedman.pdf">
+        <a href="https://github.com/Benjamincf0/Resume/blob/main/Benjamin_Curis_Friedman.pdf" target="_blank">
           <span ref={nameSpanRef} className="hover-line hover-line-lr">
             Benjamin Curis-Friedman
           </span>
