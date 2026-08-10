@@ -4,6 +4,7 @@ import Experiences from "#components/experiences.tsx";
 import Projects from "#components/projects.tsx";
 import ContactForm from "#components/contactme.tsx";
 import Testimonials from "#components/testimonials.tsx"
+import Readings from "#components/readings.tsx"
 import "#styles/App.css";
 
 function App() {
@@ -23,6 +24,8 @@ function App() {
         <div className="ticks"></div>
         <h2><span className="hover-line">Projects</span></h2>
         <Projects />
+        <h2><span className="hover-line">Recent readings</span></h2>
+        <Readings />
         <h2><span className="hover-line">Testimonials</span></h2>
         <Testimonials />
       </section>
