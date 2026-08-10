@@ -30,6 +30,11 @@
       width: 100%;
       height: 100%;
       box-sizing: border-box;
+
+      svg {
+        width: 30px;
+        height: 30px;
+      }
     }
     p {
       color: transparent;
