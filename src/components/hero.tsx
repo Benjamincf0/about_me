@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "#styles/hero.css";
 import { load } from "@loaders.gl/core";
+// import { PolyDataMapper, WebGLActor, Camera, WebGLRenderer} from "./../four.ts"
 import statusActiveIcon from "#assets/status-active-svgrepo-com.svg";
 import { PLYLoader } from "@loaders.gl/ply";
 const plyData = await loadPlyBuffer("./bunny.ply");
@@ -265,7 +266,7 @@ export default function Hero() {
 
     // observer.observe(canvas);
     setInterval(() => {
-      console.log(WCVCMatrix);
+      // console.log(WCVCMatrix);
       if (gl.canvas instanceof OffscreenCanvas) return;
       resizeCanvasToDisplaySize(gl.canvas);
 
@@ -287,7 +288,7 @@ export default function Hero() {
       const count = plyData.indices.length;
       const indexType = gl.UNSIGNED_SHORT;
       gl.drawElements(primitiveType, count, indexType, offset);
-      console.log("rendered");
+      // console.log("rendered");
     }, 10);
   }, []); // Only runs once since we pass [] as depsList
 
