@@ -2,41 +2,43 @@ import reactLogo from "#assets/react.svg";
 import typescriptLogo from "#assets/typescript-16-svgrepo-com.svg";
 import glslLogo from "#assets/glsl-svgrepo-com.svg";
 import "#styles/projects.css";
-import TechStack from "./techstack";
+import {TechStack, TechItems} from "./techstack";
 import type { TechStackData } from "./techstack";
+
+
+const TagItems = {
+  PERSONAL_PROJECT: {
+    bg_color: "#323882",
+    name: "personal project",
+  },
+  SCHOOL_PROJECT: {
+    bg_color: "#aa3322",
+    name: "school project",
+  },
+  GROUP_PROJECT: {
+    bg_color: "#5566ee",
+    name: "group project",
+  },
+  NO_AI_CODE: {
+    bg_color: "#77569e",
+    name: "no ai code",
+  },
+  VIBE_CODING: {
+    bg_color: "#569e77",
+    name: "vibe coding",
+  },
+  HACKATHON: {
+    bg_color: "#323232",
+    name: "Hackathon",
+  },
+} as const;
 
 const projects = [
   {
     name: "OmniClaw",
     date: "May 2026",
-    tags: [
-      {
-        name: "hackathon",
-        color: "#323232",
-      },
-      {
-        name: "group project",
-        color: "#5566ee",
-      },
-      {
-        name: "vibe coding",
-        color: "#569e77",
-      },
-    ],
-    stack: [
-      {
-        name: "React",
-        img_src: reactLogo,
-      },
-      {
-        name: "Typescript",
-        img_src: typescriptLogo,
-      },
-      {
-        name: "GLSL",
-        img_src: glslLogo,
-      },
-    ],
+    tags: [ TagItems.HACKATHON, TagItems.GROUP_PROJECT, TagItems.VIBE_CODING],
+    stack: [ TechItems.CLAUDE_CODE, TechItems.CODEX, TechItems.REACT, TechItems.TYPESCRIPT ],
     gh_link: "https://github.com/Benjamincf0/omniclaw",
     description: `• Built an MCP server for a student portal, empowering agents to help with homework and emails.
 • Integrated OAuth2 to let users login from their favourite MCP client (i.e. Codex / Claude code).
@@ -48,26 +50,8 @@ const projects = [
   {
     name: "NeuralFlow",
     date: "May 2026",
-    tags: [
-      {
-        name: "personal project",
-        color: "#323882",
-      },
-      {
-        name: "no ai code",
-        color: "#77569e",
-      },
-    ],
-    stack: [
-      {
-        name: "Python",
-        img_src: typescriptLogo,
-      },
-      {
-        name: "Numpy",
-        img_src: glslLogo,
-      },
-    ],
+    tags: [ TagItems.PERSONAL_PROJECT, TagItems.NO_AI_CODE ],
+    stack: [ TechItems.PYGAME, TechItems.PYTHON, TechItems.NUMPY ],
     gh_link: "https://github.com/Benjamincf0/Neural-Network-Library",
     description: `• Created a NN library complete with mini-batch gradient descent and activation/cost functions.
 • Trained a sequential neural network achieving ∼96% test accuracy on MNIST dataset.
@@ -78,26 +62,8 @@ const projects = [
   {
     name: "Cheese Manager",
     date: "May 2026",
-    tags: [
-      {
-        name: "personal project",
-        color: "#323882",
-      },
-      {
-        name: "no ai code",
-        color: "#77569e",
-      },
-    ],
-    stack: [
-      {
-        name: "Python",
-        img_src: typescriptLogo,
-      },
-      {
-        name: "Numpy",
-        img_src: glslLogo,
-      },
-    ],
+    tags: [ TagItems.SCHOOL_PROJECT, TagItems.GROUP_PROJECT, TagItems.NO_AI_CODE ],
+    stack: [ TechItems.UMPLE, TechItems.JAVA ],
     gh_link: "https://github.com/Benjamincf0/Neural-Network-Library",
     description: `• Developed an application for a comté cheese distribution business following the MVC pattern in Java.
 • Created an aesthetically pleasing user interface with JavaFX using reusable components.
@@ -107,26 +73,8 @@ const projects = [
   {
     name: "WebChat",
     date: "May 2026",
-    tags: [
-      {
-        name: "personal project",
-        color: "#323882",
-      },
-      {
-        name: "no ai code",
-        color: "#77569e",
-      },
-    ],
-    stack: [
-      {
-        name: "Python",
-        img_src: typescriptLogo,
-      },
-      {
-        name: "Numpy",
-        img_src: glslLogo,
-      },
-    ],
+    tags: [ TagItems.PERSONAL_PROJECT, TagItems.NO_AI_CODE],
+    stack: [ TechItems.CSS, TechItems.HTML, TechItems.JAVASCRIPT, TechItems.FIREBASE],
     gh_link: "https://github.com/Benjamincf0/Neural-Network-Library",
     description: `• Developed a full-stack web messaging platform with authentication to message friends.
 • Programmed search and adding friends features with Cloud Functions.
@@ -137,7 +85,7 @@ const projects = [
 
 interface ProjectCardTag {
   name: string;
-  color: string;
+  bg_color: string;
 }
 
 interface ProjectCardProps {
@@ -145,7 +93,8 @@ interface ProjectCardProps {
   date: string;
   tags: ProjectCardTag[];
   stack: TechStackData[];
-  gh_link: string;
+  gh_link?: string;
+  live_link?: string;
   description: string;
   visual_link: string;
 }
@@ -167,6 +116,7 @@ function Projectcard({
   tags,
   stack,
   gh_link,
+  live_link,
   description,
   visual_link,
 }: ProjectCardProps) {
@@ -191,8 +141,8 @@ function Projectcard({
       <div className="bottom">
         <div className="header">
           <div className="tags">
-            {tags.map(({ name, color }) => (
-              <p key={name} style={{ backgroundColor: color }}>
+            {tags.map(({ name, bg_color }) => (
+              <p key={name} style={{ backgroundColor: bg_color }}>
                 {name}
               </p>
             ))}
