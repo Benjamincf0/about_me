@@ -16,11 +16,14 @@ ul.testimonials {
   flex-direction: row;
   gap: 10vw;
   margin: 0;
-  padding-left: 10vw;
+  /* padding-left: 10vw; */
+  padding: 0;
   flex-shrink: 0;
   will-change: transform;
   /* animation: scroll 10s linear infinite; */
   box-sizing: border-box;
+  width: 100%;
+  justify-content: center;
 
   li.testimonial {
     flex-shrink: 0;
@@ -33,7 +36,6 @@ ul.testimonials {
     max-width: 45vw;
     min-width: 15vw;
     text-align: center;
-    padding: 5px;
 
     h3 {
       font-size: 18px;
