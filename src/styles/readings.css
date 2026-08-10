@@ -1,0 +1,23 @@
+.reading-item {
+  width: fit-content;
+  width: 20vw;
+  max-width: 300px;
+
+  h3 {
+    font-size: 15px;
+    margin: 0;
+  }
+
+  p {
+    font-size: 15px;
+  }
+  img {
+    height: 150px;
+    width: auto;
+    border: solid black 1px;
+  }
+}
+
+.reading-carousel {
+  gap: clamp(100px, 5vw, 350px);
+}
