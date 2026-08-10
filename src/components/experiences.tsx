@@ -15,13 +15,13 @@ const experiences = [
     },
     start_month: "Jan. 2026",
     end_month: "Aug. 2026",
-    description: `Rendered realistic optical distortion by writing custom vertex shader replacements for vtk in OpenGL.
-Contributed to open source libraries (pyvista & vtk), improving rendering performance and code coverage.
-Engineered a 3D robot emulator application using pyvista, enabling accurate surgery planning.
-Refactored a brain surgery robot networking protocol to make it resilient to corrupt data packets.
-Implemented robotic transcranial magnetic stimulation algorithms, setting a baseline for further research.
-Developed unit tests for existing classes and methods to improve code coverage in Objective-C.
-Implemented a vectorized SSIM image comparison algorithm for CI UITests using Apple’s vImage framework.                  `,
+    description: `• Rendered realistic optical distortion by writing custom vertex shader replacements for vtk in OpenGL.
+• Contributed to open source libraries (pyvista & vtk), improving rendering performance and code coverage.
+• Engineered a 3D robot emulator application using pyvista, enabling accurate surgery planning.
+• Refactored a brain surgery robot networking protocol to make it resilient to corrupt data packets.
+• Implemented robotic transcranial magnetic stimulation algorithms, setting a baseline for further research.
+• Developed unit tests for existing classes and methods to improve code coverage in Objective-C.
+• Implemented a vectorized SSIM image comparison algorithm for CI UITests using Apple’s vImage framework.                  `,
     stack: [
       {
         name: "React",
@@ -47,10 +47,10 @@ Implemented a vectorized SSIM image comparison algorithm for CI UITests using Ap
     },
     start_month: "May. 2025",
     end_month: "Dec. 2025",
-    description: `Developed a video synchronization & compression library using FFmpeg and OpenCV to prepare for training.
-Coded a data pre-processing pipeline to clean raw human vital signals for machine learning models.
-Built and programmed a task labeling device using Arduino and C++ to split recording segments appropriately
-Created a high quality multi-modal dataset of over 50 hours of recordings from dozens of study participants.`,
+    description: `• Developed a video synchronization & compression library using FFmpeg and OpenCV to prepare for training.
+• Coded a data pre-processing pipeline to clean raw human vital signals for machine learning models.
+• Built and programmed a task labeling device using Arduino and C++ to split recording segments appropriately
+• Created a high quality multi-modal dataset of over 50 hours of recordings from dozens of study participants.`,
     stack: [
       {
         name: "Python",
