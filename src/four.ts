@@ -2,8 +2,31 @@ import { load } from "@loaders.gl/core";
 import { PLYLoader } from "@loaders.gl/ply";
 import { mat3, mat4, vec3, vec4, vec2 } from "gl-matrix";
 
-export class Camera {
-  private _pose: mat4;
+abstract class ThreeDObject {
+  protected _pose: mat4;
+
+  constructor(pose: mat4) {
+    const pose_copy = mat4.create();
+    this._pose = mat4.copy(pose_copy, pose);
+  }
+
+  set position([x, y, z]: vec3) {
+    this._pose[12] = x;
+    this._pose[13] = y;
+    this._pose[14] = z;
+  }
+
+  get position() {
+    const position = vec3.create();
+    return mat4.getTranslation(position, this._pose);
+  }
+
+  abstract setup_render_context(gl: WebGLRenderingContext): boolean;
+
+  abstract render(gl: WebGLRenderingContext): boolean;
+}
+
+export class Camera extends ThreeDObject {
   private _intrinsic: mat3;
 
   // We use distortion coefficients: k1, k2, p1, p2.
@@ -11,8 +34,7 @@ export class Camera {
 
   constructor(pose: mat4);
   constructor(pose: mat4, intrinsic?: mat4, dist_coeffs?: vec4) {
-    const pose_copy = mat4.create();
-    this._pose = mat4.copy(pose_copy, pose);
+    super(pose);
 
     const intrinsic_copy = mat3.create();
     if (intrinsic) {
@@ -74,15 +96,35 @@ export class Camera {
     const dist_coeffs_copy = vec4.create();
     this._dist_coeffs = vec4.copy(dist_coeffs_copy, dist_coeffs);
   }
+
+  setup_render_context(gl: WebGLRenderingContext): boolean {
+    // This functions job is to create any uniforms that will be needed to render...
+    return true;
+  }
+
+  render(gl: WebGLRenderingContext) {
+    // Check whether the object's state was changed, and set/update uniforms if needed.
+    return true;
+  }
 }
 
-export class Actor {
-  pose: mat4;
+export class Actor extends ThreeDObject {
   mapper: Mapper;
 
-  constructor(mapper: Mapper) {
-    this.pose = mat4.create();
+  constructor(pose: mat4, mapper: Mapper, shader: Shader) {
+    super(pose);
     this.mapper = mapper;
+  }
+
+  setup_render_context(gl: WebGLRenderingContext): boolean {
+    // We upload any arrays to the gpu.
+    // We ask the shader program to upload itself so that we can be rendered quickly.
+    return true;
+  }
+
+  render(gl: WebGLRenderingContext) {
+    // We draw teh triangles to the context.
+    return true;
   }
 }
 
@@ -100,12 +142,12 @@ export class Renderer {
   render() {}
 }
 
-export abstract class Mapper {}
+abstract class Mapper {}
 
-export abstract class PolyDataMapper extends Mapper {
+export class PolyDataMapper extends Mapper {
   plyPath: string;
-  // vertices: Array<number>
-  // indices: Array<number>
+  vertices: Array<number>
+  indices: Array<number>
 
   constructor(plyPath: string) {
     super();
@@ -130,3 +172,11 @@ export abstract class PolyDataMapper extends Mapper {
     return { vertices, indices };
   }
 }
+
+abstract class Shader {}
+
+export class NormalShader extends Shader {}
+
+export class FlatShader extends Shader {}
+
+export class PhongShader extends Shader {}
