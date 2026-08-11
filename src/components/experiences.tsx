@@ -3,11 +3,25 @@ import reactLogo from "#assets/react.svg";
 import typescriptLogo from "#assets/typescript-16-svgrepo-com.svg";
 import glslLogo from "#assets/glsl-svgrepo-com.svg";
 import downArrow from "#assets/down-arrow-5-svgrepo-com.svg";
+import type { TechStackData } from "./techstack";
 // import locationIcon from "src/assets/locationIcon.svg";
+
+interface ExperienceData {
+  id: string;
+  position: string;
+  company: string;
+  company_logo: string;
+  location: { str: string; src: string };
+  start_month: string;
+  end_month: string;
+  description: string;
+  stack: Array<TechStackData>
+}
 const experiences = [
   {
     id: "0",
     company: "Rogue-Research",
+    company_logo: "rr.png",
     position: "Software Developer Intern",
     location: {
       str: "Montreal, QC",
@@ -40,6 +54,7 @@ const experiences = [
   {
     id: "1",
     company: "iSmart AI lab @ McGill",
+    company_logo: "ismart.png",
     position: "Software Developer Intern",
     location: {
       str: "Montreal, QC",
@@ -69,14 +84,16 @@ export default function Experiences() {
             id,
             position,
             company,
+            company_logo,
             location: { str: loc_str, src: loc_src },
             start_month,
             end_month,
-            description: desc,
-          }) => (
+            description,
+          }: ExperienceData) => (
             <li key={id} id={id}>
               <div className="experienceCard card" tabIndex={0}>
                 <div className="top">
+                  <img src={"experience-logos/" + company_logo} />
                   <div className="titleDiv">
                     <h3 className="title">{company}</h3>
                     <h3 className="subTitle">{position}</h3>
@@ -92,7 +109,7 @@ export default function Experiences() {
                 </div>
                 <div className="bottom">
                   <div className="grower">
-                    <p className="description">{desc}</p>
+                    <p className="description">{description}</p>
                   </div>
                 </div>
                 <img className="expandButton" src={downArrow} />

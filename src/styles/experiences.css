@@ -31,6 +31,15 @@
   .top {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    img {
+      padding: 3px;
+      box-sizing: border-box;
+      height: 50px;
+      width: 80px;
+      object-fit: contain;
+      object-position: left;
+    }
     .titleDiv {
       text-align: left;
       flex: 3;
