@@ -24,8 +24,9 @@
       align-items: center;
       box-shadow: var(--shadow);
       background-color: rgb(220, 220, 220, 0.5);
-      backdrop-filter: blur(10px);
+      /* NOTE: order is important here otherwise lightningcss deletes blur... */
       -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
       padding: 10px;
       width: 100%;
       height: 100%;

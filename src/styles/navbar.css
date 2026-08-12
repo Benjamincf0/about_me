@@ -10,8 +10,9 @@
 
   align-items: center;
 
-  backdrop-filter: blur(10px);
+  /* NOTE: order is important here otherwise lightningcss deletes blur... */
   -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
 
   h1 {
     flex: 1;
