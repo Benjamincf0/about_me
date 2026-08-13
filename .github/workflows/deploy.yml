@@ -31,7 +31,7 @@ jobs:
           name: dist-files
           path: dist/
 
-  deploy_s3:
+  deploy_aws:
     needs: vite_build
     runs-on: ubuntu-latest
     steps:
