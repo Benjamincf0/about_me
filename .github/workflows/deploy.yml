@@ -1,0 +1,51 @@
+name: Build & deploy to S3
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  vite_build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo.
+        uses: actions/checkout@v4
+
+      - name: Setup Bun package manager.
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install packages.
+        run: bun install
+
+      - name: Build with vite.
+        run: bun run build
+
+      - name: Upload Artifact.
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-files
+          path: dist/
+
+  deploy_s3:
+    needs: vite_build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Retrieve artifact.
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-files
+          path: dist/
+
+      - name: Setup AWS Credentials.
+        uses: aws-actions/configure-aws-credentials@v6.2.3
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: us-east-1
+
+      - name: Sync S3 bucket.
+        run: aws s3 sync ./dist s3://${{ vars.AWS_S3_BUCKET_NAME }} --delete
