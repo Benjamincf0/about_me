@@ -6,8 +6,7 @@ abstract class ThreeDObject {
   protected _pose: mat4;
 
   constructor(pose: mat4) {
-    const pose_copy = mat4.create();
-    this._pose = mat4.copy(pose_copy, pose);
+    this._pose = mat4.copy(mat4.create(), pose);
   }
 
   set position([x, y, z]: vec3) {
@@ -20,10 +19,6 @@ abstract class ThreeDObject {
     const position = vec3.create();
     return mat4.getTranslation(position, this._pose);
   }
-
-  abstract setup_render_context(gl: WebGLRenderingContext): boolean;
-
-  abstract render(gl: WebGLRenderingContext): boolean;
 }
 
 export class Camera extends ThreeDObject {
@@ -32,37 +27,22 @@ export class Camera extends ThreeDObject {
   // We use distortion coefficients: k1, k2, p1, p2.
   private _dist_coeffs: vec4;
 
-  constructor(pose: mat4);
-  constructor(pose: mat4, intrinsic?: mat4, dist_coeffs?: vec4) {
+  public screen_dimensions: [number, number]
+
+  public near_plane: number
+  public far_plane: number
+
+  constructor(pose: mat4, screen_dimensions: [number, number], near_plane: number, far_plane: number, intrinsic?: mat4, dist_coeffs?: vec4) {
     super(pose);
 
-    const intrinsic_copy = mat3.create();
-    if (intrinsic) {
-      mat3.copy(intrinsic_copy, intrinsic);
-      this._intrinsic = intrinsic_copy;
-    } else {
-      mat3.identity(intrinsic_copy);
-      this._intrinsic = intrinsic_copy;
-    }
+    this._intrinsic = intrinsic?mat3.copy(mat3.create(), intrinsic):mat3.identity(mat3.create());
 
-    const dist_coeffs_copy = vec4.create();
-    if (dist_coeffs) {
-      vec4.copy(dist_coeffs_copy, dist_coeffs);
-      this._dist_coeffs = dist_coeffs_copy;
-    } else {
-      this._dist_coeffs = dist_coeffs_copy;
-    }
-  }
+    this._dist_coeffs = dist_coeffs?vec4.copy(vec4.create(), dist_coeffs):this._dist_coeffs = vec4.create();
+      
+    this.screen_dimensions = screen_dimensions;
 
-  set position([x, y, z]: vec3) {
-    this._pose[12] = x;
-    this._pose[13] = y;
-    this._pose[14] = z;
-  }
-
-  get position() {
-    const position = vec3.create();
-    return mat4.getTranslation(position, this._pose);
+    this.near_plane = near_plane;
+    this.far_plane = far_plane;
   }
 
   set focal_point(focal_point: vec3) {
@@ -93,8 +73,7 @@ export class Camera extends ThreeDObject {
   }
 
   set dist_coeffs(dist_coeffs: vec4) {
-    const dist_coeffs_copy = vec4.create();
-    this._dist_coeffs = vec4.copy(dist_coeffs_copy, dist_coeffs);
+    this._dist_coeffs = vec4.copy(vec4.create(), dist_coeffs);
   }
 
   get WCDCMatrix(): mat4 {
@@ -145,6 +124,7 @@ export class Camera extends ThreeDObject {
     return WCDCMatrix;
   }
 
+  setup(gl: WebGLRenderingContext): boolean {
     // This functions job is to create any uniforms that will be needed to render...
     return true;
   }
@@ -157,19 +137,26 @@ export class Camera extends ThreeDObject {
 
 export class Actor extends ThreeDObject {
   mapper: Mapper;
+  shaderProgram: ShaderProgram
 
-  constructor(pose: mat4, mapper: Mapper, shader: Shader) {
+  constructor(pose: mat4, mapper: Mapper, shaderProgram: ShaderProgram) {
     super(pose);
     this.mapper = mapper;
+    this.shaderProgram = shaderProgram;
   }
 
-  setup_render_context(gl: WebGLRenderingContext): boolean {
-    // We upload any arrays to the gpu.
-    // We ask the shader program to upload itself so that we can be rendered quickly.
+  setup(gl: WebGLRenderingContext): boolean {
+    // Call shader program setup.
+    this.shaderProgram.setup(gl)
+    // Call mapper setup.
+    this.mapper.setup(gl)
     return true;
   }
 
-  render(gl: WebGLRenderingContext) {
+  render(gl: WebGLRenderingContext, WCDCMatrix: mat4) {
+    // update the uniforms
+
+
     // We draw teh triangles to the context.
     return true;
   }
@@ -178,52 +165,63 @@ export class Actor extends ThreeDObject {
 export class Renderer {
   gl: WebGLRenderingContext;
   camera: Camera;
-  actors: Array<Actor>;
+  actors: Set<Actor>;
 
   constructor(gl: WebGLRenderingContext, camera: Camera) {
     this.gl = gl;
     this.camera = camera;
-    this.actors = [];
+    this.actors = new Set();
   }
 
-  render() {}
-}
+  setup() {
+    this.gl.getExtension("OES_standard_derivatives");
+    this.gl.enable(this.gl.DEPTH_TEST);
 
-abstract class Mapper {}
-
-export class PolyDataMapper extends Mapper {
-  plyPath: string;
-  vertices: Array<number>
-  indices: Array<number>
-
-  constructor(plyPath: string) {
-    super();
-    this.plyPath = plyPath;
+    this.camera.setup(this.gl);
+    this.actors.forEach(actor => actor.setup(this.gl));
   }
 
-  async loadPlyBuffer(url: string) {
-    const data = await load(url, PLYLoader);
-    const vertices = data.attributes.POSITION.value as Float32Array;
+  render() {
+    const WCDCMatrix = this.camera.WCDCMatrix;
 
-    let indices = data.indices?.value;
+    this.actors.forEach(actor => actor.render(this.gl, WCDCMatrix));
 
-    // Force 16-bit array
-    if (indices instanceof Uint32Array) {
-      indices = new Uint16Array(indices);
-    }
-
-    if (!indices) {
-      throw Error(`Failed to load indices from ply.`);
-    }
-
-    return { vertices, indices };
   }
 }
 
-abstract class Shader {}
+export class PolyDataMapper {
+  vertices: Array<number>;
+  indices: Array<number>;
 
-export class NormalShader extends Shader {}
+  constructor(vertices: Array<number>, indices: Array<number>) {
+    this.vertices = vertices;
+    this.indices = indices;
+  }
 
-export class FlatShader extends Shader {}
+  setup(gl: WebGLRenderingContext) {
 
-export class PhongShader extends Shader {}
+  }
+
+}
+
+class ShaderProgram {
+  fragmentSource: string
+  vertexSource: string
+
+  constructor() {
+    this.fragmentSource = `
+
+`
+
+    this.vertexSource = `
+
+`
+  }
+
+  setup(gl: WebGLRenderingContext) {
+    // create shaders
+    // create program
+    // extract uniforms
+  }
+
+}
