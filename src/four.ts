@@ -97,7 +97,54 @@ export class Camera extends ThreeDObject {
     this._dist_coeffs = vec4.copy(dist_coeffs_copy, dist_coeffs);
   }
 
-  setup_render_context(gl: WebGLRenderingContext): boolean {
+  get WCDCMatrix(): mat4 {
+    // Projection matrix / extrinsic matrix
+    const WCVCMatrix = mat4.invert(mat4.create(), this._pose);
+    if (WCVCMatrix == null) {
+      console.error("WCVCMatrix is null :( => pose not invertible.")
+      return mat4.create()
+    }
+
+    // Perspective matrix
+    const fx = this._intrinsic[0]
+    const fy = this._intrinsic[4]
+    const cx = this._intrinsic[6]
+    const cy = this._intrinsic[7]
+    const A = this.near_plane + this.far_plane
+    const B = this.near_plane * this.far_plane
+    const PerspectiveMatrix = mat4.fromValues(
+      fx, 0, -cx, 0,
+      0, fy, -cy, 0,
+      0,  0,   A, B,
+      0,  0,  -1, 0
+    )
+
+    // Transform to NDC
+    const [W, H] = this.screen_dimensions
+    const left = -W/2
+    const right = W/2
+    const bottom = -H/2
+    const top = H/2
+
+    const tx = -(right+left)/(right-left);
+    const ty = -(top+bottom)/(top-bottom);
+    const tz = -(this.far_plane+this.near_plane)/(this.far_plane-this.near_plane);
+
+    const NDCMatrix = mat4.fromValues(
+      2/(right-left), 0, 0, tx,
+      0, 2/(top-bottom), 0, ty,
+      0, 0, -2/(this.far_plane-this.near_plane), tz,
+      0, 0, 0, 1
+    )
+
+    // Proj matrix
+    const VCDCMatrix = mat4.multiply(mat4.create(), NDCMatrix, PerspectiveMatrix);
+
+    const WCDCMatrix = mat4.multiply(mat4.create(), VCDCMatrix, WCVCMatrix)
+
+    return WCDCMatrix;
+  }
+
     // This functions job is to create any uniforms that will be needed to render...
     return true;
   }
