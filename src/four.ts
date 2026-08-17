@@ -1,6 +1,7 @@
 import { load } from "@loaders.gl/core";
 import { PLYLoader } from "@loaders.gl/ply";
 import { mat3, mat4, vec3, vec4, vec2 } from "gl-matrix";
+import { cache } from "react";
 
 abstract class ThreeDObject {
   protected _pose: mat4;
@@ -124,15 +125,6 @@ export class Camera extends ThreeDObject {
     return WCDCMatrix;
   }
 
-  setup(gl: WebGLRenderingContext): boolean {
-    // This functions job is to create any uniforms that will be needed to render...
-    return true;
-  }
-
-  render(gl: WebGLRenderingContext) {
-    // Check whether the object's state was changed, and set/update uniforms if needed.
-    return true;
-  }
 }
 
 export class Actor extends ThreeDObject {
@@ -163,9 +155,10 @@ export class Actor extends ThreeDObject {
 }
 
 export class Renderer {
-  gl: WebGLRenderingContext;
-  camera: Camera;
-  actors: Set<Actor>;
+  private gl: WebGLRenderingContext;
+  public camera: Camera;
+  public actors: Set<Actor>;
+  private _was_setup:boolean = false;
 
   constructor(gl: WebGLRenderingContext, camera: Camera) {
     this.gl = gl;
@@ -177,11 +170,13 @@ export class Renderer {
     this.gl.getExtension("OES_standard_derivatives");
     this.gl.enable(this.gl.DEPTH_TEST);
 
-    this.camera.setup(this.gl);
     this.actors.forEach(actor => actor.setup(this.gl));
+    this._was_setup = true;
   }
 
   render() {
+    if (!this._was_setup) {this.setup()};
+
     const WCDCMatrix = this.camera.WCDCMatrix;
 
     this.actors.forEach(actor => actor.render(this.gl, WCDCMatrix));
@@ -189,7 +184,7 @@ export class Renderer {
   }
 }
 
-export class PolyDataMapper {
+export class Mapper {
   vertices: Array<number>;
   indices: Array<number>;
 
@@ -199,22 +194,64 @@ export class PolyDataMapper {
   }
 
   setup(gl: WebGLRenderingContext) {
+    // 
 
   }
 
 }
 
-class ShaderProgram {
+export class ShaderProgram {
   fragmentSource: string
   vertexSource: string
 
   constructor() {
     this.fragmentSource = `
+// This macro enables the derivative of the varyings accross adjacent fragments.
+#extension GL_OES_standard_derivatives : enable
 
+// fragment shaders don't have a default precision so we need
+// to pick one. mediump is a good default
+precision mediump float;
+
+// This vec3 is passed from the GPU and interpolated.
+varying vec3 v_position;
+
+void main() {
+  // Compute the derivative of the v_position accross adjacent fragments.
+  
+  // partial derivative of the position wrt. the horizontal axis of the screen.
+  // Basically saying, how does the (interpolated) position of the vertex vary
+  // in each dimension when we move 1 pixel/fragment to the right.
+  vec3 dx = dFdx(v_position);
+
+  // Same thing but wrt. vertical axis of screen.
+  vec3 dy = dFdy(v_position);
+
+  vec3 normal = normalize(cross(dx, dy));
+  vec3 color = normal * 0.5 + 0.5;
+  
+  gl_FragColor = vec4(color, 1); // return reddish-purple
+}
 `
 
     this.vertexSource = `
+// This attribute holds the position of my vertex.
+attribute vec3 a_position;
 
+uniform float u_time;
+uniform mat4 MCDCMatrix;
+
+// NOTE: No need to register a varying in javascript, as it is handeled by the glsl shader
+// compiler and linker.
+// This varying vec3 will hold the position of the vertex, and will be interpolated by the
+// GPU before being passed to the fragment shader.
+varying vec3 v_position;
+
+void main() {
+  vec4 pos = MCDCMatrix*vec4(a_position, 1.0);
+  v_position = pos.xyz;
+  gl_Position = pos;
+}
 `
   }
 
