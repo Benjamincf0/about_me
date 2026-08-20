@@ -1,0 +1,31 @@
+name: Deploy AWS Lambda
+
+on:
+  push:
+    branches: 
+      - main
+    paths:
+      - 'backend/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # Required for OIDC authentication
+      contents: read  # Required to check out the repository
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: us-east-1
+      
+      - name: Deploy Lambda Function
+        uses: aws-actions/aws-lambda-deploy@v1
+        with:
+          function-name: email_lambda
+          code-artifacts-dir: backend/lambdas/email_lambda
+          runtime: python3.14
+          handler: lambda_function.lambda_handler
