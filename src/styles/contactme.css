@@ -19,6 +19,18 @@
   form {
     display: flex;
     flex-direction: row;
+    input,
+    button {
+      flex: 0;
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      height: 40px;
+      border-radius: 5px;
+      border-color: var(--accent-border);
+      padding: 5px;
+      background-color: var(--bg);
+    }
     .left {
       padding: 25px;
       flex: 1;
@@ -27,18 +39,6 @@
       align-items: flex-start;
       gap: 10px 0px;
 
-      input,
-      button {
-        flex: 1;
-        display: block;
-        width: 100%;
-        box-sizing: border-box;
-        height: 40px;
-        border-radius: 5px;
-        border-color: var(--accent-border);
-        padding: 5px;
-        background-color: var(--bg);
-      }
       button {
         background-color: var(--accent-bg);
       }
