@@ -68,7 +68,7 @@ export default function ContactForm() {
                   } else if (contactFormState == "Sent") {
                     return "#78ec70";
                   } else {
-                    return "var(accent-bg)";
+                    return "var(--accent-bg)";
                   }
                 })(),
               }}
