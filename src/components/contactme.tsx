@@ -1,52 +1,84 @@
 import "#styles/contactme.css";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
-enum ContactFormStates {
-  UNSENT,
-  SENT,
-  CONFIRMED,
-}
+const LAMBDA_ENDPOINT =
+  "https://5cepsmezf5cyzd3t2toigs5nhe0rljhp.lambda-url.us-east-1.on.aws/";
 
 export default function ContactForm() {
-  const [contactFormState, setContactFormState] = useState(
-    ContactFormStates.UNSENT,
-  );
+  const [contactFormState, setContactFormState] = useState<string>("Send");
 
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  // const [textareaText, setTextareaText] = useState("");
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault(); // -> stops reload -> stops auto-reset -> keeps data
+    const form = e.currentTarget;
+    const formData = new FormData(e.currentTarget);
 
-  const buttonMessages = {
-    [ContactFormStates.UNSENT]: "Send",
-    [ContactFormStates.SENT]: "Sending ...",
-    [ContactFormStates.CONFIRMED]: "Sent",
-  };
+    setContactFormState("Sending ...");
+    const jsonFormData = JSON.stringify(Object.fromEntries(formData.entries()));
+    console.log(jsonFormData);
 
-  function handleAction(formData: FormData) {
-    setContactFormState(ContactFormStates.SENT);
-    setTimeout(() => setContactFormState(ContactFormStates.CONFIRMED), 2000);
-    console.log(formData)
-    console.log("submitted form")
+    try {
+      const response = await fetch(LAMBDA_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: jsonFormData,
+      });
+      if (!response.ok) {
+        throw new Error(`Response status ${response.status}`);
+      }
 
+      setContactFormState("Sent");
+      form.reset();
+    } catch (error) {
+      setContactFormState(`Failed: ${error.message}`);
+    }
+    setTimeout(() => {
+      setContactFormState(`Send`);
+    }, 3000);
   }
 
   return (
     <>
       <div id="contactForm">
-        <form action={handleAction}>
+        <form onSubmit={handleSubmit}>
           <div className="left">
             <h3>Let's work together!</h3>
             <label htmlFor="name">Name</label>
-            <input id="name" name="name" type="text" placeholder="Mike Hawk" required/>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              placeholder="Mike Hawk"
+              required
+            />
             <label htmlFor="email">Email</label>
-            <input id="email" name="email" type="email" placeholder="mikehawk@gmail.com" required/>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="mikehawk@gmail.com"
+              required
+            />
             <button
               type="submit"
-              disabled={contactFormState != ContactFormStates.UNSENT}
+              disabled={contactFormState != "Send"}
+              style={{
+                backgroundColor: (() => {
+                  if (contactFormState.includes("Failed")) {
+                    return "#ef4040";
+                  } else if (contactFormState == "Sent") {
+                    return "#78ec70";
+                  } else {
+                    return "unset";
+                  }
+                })(),
+              }}
             >
-              {buttonMessages[contactFormState]}
+              {contactFormState}
             </button>
           </div>
           <div className="right">
+            <label htmlFor="subject">Subject</label>
+            <input id="subject" name="subject" type="text" required />
             <label htmlFor="textarea">Your message</label>
             <textarea id="textarea" name="message" required></textarea>
           </div>
