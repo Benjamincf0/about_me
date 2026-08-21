@@ -80,7 +80,7 @@ const projects = [
     description: `• Developed an application for a comté cheese distribution business following the MVC pattern in Java.
 • Created an aesthetically pleasing user interface with JavaFX using reusable components.
 • Collaborated with teammates to create a UML class diagram and state diagram using Umple.`,
-    visual_link: "https://github-production-user-asset-6210df.s3.amazonaws.com/126989125/539531556-098b7607-1c57-49f9-bfa0-d988851b2f0c.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20260821%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260821T003543Z&X-Amz-Expires=300&X-Amz-Signature=98bcf0d8bf407668332ce38532f590ee05d7c79eef254accaca29d606d8f74bf&X-Amz-SignedHeaders=host&response-content-type=image%2Fpng",
+    visual_link: "./projects/cheese_manager.png",
   },
   {
     name: "WebChat",
@@ -124,7 +124,7 @@ const projects = [
     description: `• Developed an application for a comté cheese distribution business following the MVC pattern in Java.
 • Created an aesthetically pleasing user interface with JavaFX using reusable components.
 • Collaborated with teammates to create a UML class diagram and state diagram using Umple.`,
-    visual_link: "https://raw.githubusercontent.com/Benjamincf0/learning/main/assets/biximap.png",
+    visual_link: "./projects/biximap.png",
   },
 ];
 
@@ -180,7 +180,7 @@ function Projectcard({
             allowFullScreen
           ></iframe>
         ) : ""}
-        {visual_link.endsWith("png")?(
+        {visual_link.endsWith(".png")?(
         <img width="100%" src={visual_link}/>
         ):""}
       </div>
