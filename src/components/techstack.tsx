@@ -69,17 +69,25 @@ export const TechItems = {
     name: "Umple",
     img_src: "umple-icon",
   },
-  JAVASCRIPT: {
-    name: "Javascript",
-    img_src: "javascript-icon",
+  RASPBERRY_PI: {
+    name: "Raspberry Pi",
+    img_src: "raspberry-pi-icon",
   },
-  JAVASCRIPT: {
-    name: "Javascript",
-    img_src: "javascript-icon",
+  FASTAPI: {
+    name: "FastAPI",
+    img_src: "fastapi-icon",
   },
-  JAVASCRIPT: {
-    name: "Javascript",
-    img_src: "javascript-icon",
+  MCP: {
+    name: "MCP server",
+    img_src: "mcp-icon",
+  },
+  GMAPS: {
+    name: "Maps API",
+    img_src: "gmaps-icon",
+  },
+  JUPYTER_LAB: {
+    name: "Jupyter lab notebook",
+    img_src: "jupyter-lab-icon",
   },
   JAVASCRIPT: {
     name: "Javascript",
